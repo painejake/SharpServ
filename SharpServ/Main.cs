@@ -196,6 +196,8 @@ namespace SharpServ
 				sMIMEHeader = "text/html";
 			}
 			
+			// Server information - In future will pull this from a
+			// config file when package is built
 			sBuffer = sBuffer + sHTTPVersion + sStatusCode + "\r\n";
 			sBuffer = sBuffer + "Server: SharpServ-b\r\n";
 			sBuffer = sBuffer + "Content-Type: " + sMIMEHeader + "\r\n";
