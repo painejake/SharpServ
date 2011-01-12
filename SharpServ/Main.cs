@@ -47,10 +47,39 @@ namespace SharpServ
 				Thread listenThread = new Thread(new ThreadStart(StartListen));
 				listenThread.Start();
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				Console.WriteLine("An exception occured while listening: " + e.ToString());
 			}
+		}
+		
+		public string GetDefaultFileName(string sLocalDirectory)
+		{
+			SteamReader sReader;
+			String sLine = "";
+			
+			try
+			{
+				// Here we open Default.txt to find out
+				// the default files to serve
+				sReader = new SteamReader("data\\Default.txt");
+				
+				while ((sLine = sReader.ReadLine()) !=null)
+				{
+					// Look for default file in the web server
+					// root folder
+					if (FileWebRequest.Exists(sLocalDirectory + sLine) == true)
+						break;
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("An exception occured: " + e.ToString());
+			}
+			if(File.Exists(sLocalDirectory + sLine) == true)
+				return sLine;
+			else
+				return "";
 		}
 	}
 }
