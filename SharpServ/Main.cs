@@ -25,7 +25,7 @@ using System.Threading;
 
 namespace SharpServ
 {
-	class MainClass
+	class WebServer
 	{
 		private TcpListener serverListener;
 
@@ -33,7 +33,7 @@ namespace SharpServ
 		// into a XML configuration file at a later date
 		private int port = 81;
 		
-		public MainClass()
+		public WebServer()
 		{
 			try
 			{
@@ -41,7 +41,7 @@ namespace SharpServ
 				serverListener = new TcpListener(port);
 				serverListener.Start();
 				
-				Console.WriteLine("SharpServ started successfully. Press ^C to stop...");
+				Console.WriteLine("SharpServ started. Press ^C to stop...");
 				Console.WriteLine("Listening on port: " + port);
 				
 				// Start the thread which casll the methods 'StartListen'
@@ -69,7 +69,7 @@ namespace SharpServ
 				{
 					// Look for default file in the web server
 					// root folder
-					if (FileWebRequest.Exists(sLocalDirectory + sLine) == true)
+					if (File.Exists(sLocalDirectory + sLine) == true)
 						break;
 				}
 			}
@@ -98,6 +98,9 @@ namespace SharpServ
 			webServerRoot = webServerRoot.ToLower();
 			sDirName = sDirName.ToLower();
 			
+			// Remove the slash
+			// sDirName = sDirName.Substring(1,sDirName.Length - 2);
+			
 			try
 			{
 				// Here we open the Vdir.txt to find out
@@ -116,6 +119,7 @@ namespace SharpServ
 						
 						// Convert to lowercase
 						sLine = sLine.ToLower();
+						
 						sVirtualDir = sLine.Substring(0,iStartPos);
 						sActualDir = sLine.Substring(iStartPos + 1);
 						
@@ -131,6 +135,9 @@ namespace SharpServ
 				Console.WriteLine("An exception occured: " + e.ToString());
 			}
 			
+			Console.WriteLine("Virtual:----: " + sVirtualDir);
+			Console.WriteLine("Directory:--: " + sDirName);
+			Console.WriteLine("Physical:---: " + sActualDir);
 			if(sVirtualDir == sDirName)
 				return sActualDir;
 			else
@@ -156,7 +163,7 @@ namespace SharpServ
 				// virtual directories
 				sReader = new StreamReader("data\\Mime.txt");
 				
-				while((sLine = sReadLine()) !=null)
+				while((sLine = sReader.ReadLine()) !=null)
 				{
 					sLine.Trim();
 					
@@ -167,6 +174,7 @@ namespace SharpServ
 						
 						// Convert to lower case
 						sLine = sLine.ToLower();
+						
 						sMimeExt = sLine.Substring(0,iStartPos);
 						sMimeType = sLine.Substring(iStartPos + 1);
 						
@@ -312,8 +320,7 @@ namespace SharpServ
 					if(sRequestedFile.Length == 0)
 					{
 						// Get the default file name
-						sRequestedFile = GetTheDefaultFileName(sLocalDir);
-						
+						sRequestedFile = GetDefaultFileName(sLocalDir);						
 						if(sRequestedFile == "")
 						{
 							sErrorMessage = "<h2>Oh Dear! No default file name specified</h2>";
@@ -352,7 +359,7 @@ namespace SharpServ
 						
 						// Create a reader that can read bytes from FileStream
 						BinaryReader reader = new BinaryReader(fs);
-						byte[] bytes = new byte(fs.Length);
+						byte[] bytes = new byte[fs.Length];
 						int read;
 						while((read = reader.Read(bytes, 0, bytes.Length)) != 0)
 						{
