@@ -252,7 +252,7 @@ namespace SharpServ
 			String sWebServerRoot = "\\www\\"; 	// Web server root set here
 			String sPhysicalFilePath = "";		// will be moved to XML config
 			String sFormattedMessage = "";
-			String sResponce = "";
+			String sResponse = "";
 			
 			while(true)
 			{
@@ -306,6 +306,71 @@ namespace SharpServ
 					// Extract the directory name
 					sDirName = sRequest.Substring(sRequest.IndexOf("/"),
 					                              sRequest.LastIndexOf("/") - 3);
+					
+					// Identify the file name
+					// If the file name is not supplied then look in the default file list
+					if(sRequestedFile.Length == 0)
+					{
+						// Get the default file name
+						sRequestedFile = GetTheDefaultFileName(sLocalDir);
+						
+						if(sRequestedFile == "")
+						{
+							sErrorMessage = "<h2>Oh Dear! No default file name specified</h2>";
+							SendHeader(sHTTPVersion, "", sErrorMessage.Length,
+							           "404 Not Found", ref sSocket);
+							SendToBrowser(sErrorMessage, ref sSocket);
+							
+							sSocket.Close();
+							return;
+						}
+					}
+					
+					// Get the MIME type
+					String sMIMEType = GetMimeType(sRequestedFile);
+					
+					// Build the physical path
+					sPhysicalFilePath = sLocalDir + sRequestedFile;
+					Console.WriteLine("File Requested: " + sPhysicalFilePath);
+					
+					if(File.Exists(sPhysicalFilePath) == false)
+					{
+						sErrorMessage = "<h2>404 Error! File does not exist.</h2>";
+						SendHeader(sHTTPVersion, "", sErrorMessage.Length,
+						           "404 Not Found", ref sSocket);
+						SendToBrowser(sErrorMessage, ref sSocket);
+						
+						Console.WriteLine(sFormattedMessage);
+					}
+					else
+					{
+						int iToBytes=0;
+						
+						sResponse = "";
+						
+						FileStream fs= new FileStream(sPhysicalFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+						
+						// Create a reader that can read bytes from FileStream
+						BinaryReader reader = new BinaryReader(fs);
+						byte[] bytes = new byte(fs.Length);
+						int read;
+						while((read = reader.Read(bytes, 0, bytes.Length)) != 0)
+						{
+							// Read from the file and write the data to network
+							sResponse = sResponse + Encoding.ASCII.GetString(bytes, 0, read);
+							
+							iToBytes = iToBytes + read;
+						}
+						reader.Close();
+						fs.Close();
+						
+						SendHeader(sHTTPVersion, sMIMEType, iToBytes, " 200 OK", ref sSocket);
+						SendToBrowser(bytes, ref sSocket);
+						// sSocket.Send(bytes, bytes.Length, 0);
+					}
+					sSocket.Close();
+				}
+			}
+		}
 	}
 }
-
