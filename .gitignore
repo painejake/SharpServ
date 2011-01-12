@@ -42,12 +42,12 @@ callgrind.out.*
 patches-*
 
 #
-# VS binaries output
+# Binaries output
 #
 bin/*
 
 #
-# VS temporary files
+# Temporary files
 #
 *.ncb
 *.suo
@@ -57,6 +57,7 @@ bin/*
 *.vsp
 ipch
 *.user
+*.userprefs
 
 #
 # OS specific
