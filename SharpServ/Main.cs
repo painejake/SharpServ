@@ -135,6 +135,55 @@ namespace SharpServ
 			else
 				return "";
 		}
+		
+		public string GetMimeType(string sRequestedFile)
+		{
+			StreamReader sReader;
+			String sLine = "";
+			String sMimeType = "";
+			String sFileExt = "";
+			String sMimeExt = "";
+			
+			// Convert to lowercase
+			sRequestedFile = sRequestedFile.ToLower();
+			int iStartPos = sRequestedFile.IndexOf(".");
+			sFileExt = sRequestedFile.Substring(iStartPos);
+			
+			try
+			{
+				// Open the Vdir.txt to find out the list
+				// virtual directories
+				sReader = new StreamReader("data\\Mime.txt");
+				
+				while((sLine = sReadLine()) !=null)
+				{
+					sLine.Trim();
+					
+					if(sLine.Length > 0)
+					{
+						// Find the seperator
+						iStartPos = sLine.IndexOf(";");
+						
+						// Convert to lower case
+						sLine = sLine.ToLower();
+						sMimeExt = sLine.Substring(0,iStartPos);
+						sMimeType = sLine.Substring(iStartPos + 1);
+						
+						if(sMimeExt == sFileExt)
+							break;
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("An exception occured: " + e.ToString());
+			}
+			
+			if(sMimeExt == sFileExt)
+				return sMimeType;
+			else
+				return "";
+		}	
 	}
 }
 
