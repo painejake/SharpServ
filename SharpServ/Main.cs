@@ -210,6 +210,35 @@ namespace SharpServ
 			
 			Console.WriteLine("Total Bytes: " + iTotBytes.ToString());
 		}
+		
+		private void SendToBrowser(String sData, ref Socket sSocket)
+		{
+			SendToBrowser (Encoding.ASCII.GetBytes(sData), ref sSocket);
+		}
+		
+		public void SendToBrowser(Byte[] bSendData, ref Socket sSocket)
+		{
+			int numBytes = 0;
+			try
+			{
+				if(sSocket.Connected)
+				{
+					if((numBytes = sSocket.Send(bSendData,
+					                            bSendData.Length,0)) == -1)
+						Console.WriteLine("Socket Error! Cannot send packet!");
+					else
+					{
+						Console.WriteLine("No. of bytes send {0}" , numBytes);
+					}
+				}
+				else
+					Console.WriteLine("Connetion dropped...");
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("Error Occurred : {0} ", e );
+			}
+		}
 	}
 }
 
