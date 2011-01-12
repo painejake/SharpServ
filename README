@@ -24,3 +24,6 @@ Comments are welcome.
 
 SharpServ is an Open Source implementation for a web server system written
 in C# using the Mono Project.
+
+The project is designed to learn more about C# and the cross platform
+support provided by the Mono Project.
