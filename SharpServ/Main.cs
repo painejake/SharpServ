@@ -183,7 +183,31 @@ namespace SharpServ
 				return sMimeType;
 			else
 				return "";
-		}	
+		}
+		
+		public void SendHeader(string sHTTPVersion, string sMIMEHeader,
+		                       int iTotBytes, string sStatusCode, ref Socket sSocket)
+		{
+			String sBuffer = "";
+			
+			// If MIME type is not provided set default to text/html
+			if(sMIMEHeader.Length == 0)
+			{
+				sMIMEHeader = "text/html";
+			}
+			
+			sBuffer = sBuffer + sHTTPVersion + sStatusCode + "\r\n";
+			sBuffer = sBuffer + "Server: SharpServ-b\r\n";
+			sBuffer = sBuffer + "Content-Type: " + sMIMEHeader + "\r\n";
+			sBuffer = sBuffer + "Accept-Ranges: bytes\r\n";
+			sBuffer = sBuffer + "Content-Length: " + iTotBytes + "\r\n\r\n";
+			
+			Byte[] bSendData = Encoding.ASCII.GetBytes(sBuffer);
+			
+			SendToBrowser(bSendData, ref sSocket);
+			
+			Console.WriteLine("Total Bytes: " + iTotBytes.ToString());
+		}
 	}
 }
 
