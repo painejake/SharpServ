@@ -17,14 +17,40 @@
  */
 
 using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 
 namespace SharpServ
 {
 	class MainClass
 	{
-		public static void Main (string[] args)
+		private TcpListener serverListener;
+
+		// Port the web server will listen on. Will move this
+		// into a XML configuration file at a later date
+		private int port = 81;
+		
+		public SharpServ()
 		{
-			// Do something
+			try
+			{
+				// Start listening on selected port
+				serverListener = new TcpListener(port);
+				serverListener.Start();
+				
+				Console.WriteLine("SharpServ started successfully. Press ^C to stop...");
+				Console.WriteLine("Listening on port: " + port);
+				
+				// Start the thread which casll the methods 'StartListen'
+				Thread listenThread = new Thread(new ThreadStart(StartListen));
+				listenThread.Start();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("An exception occured while listening: " + e.ToString());
+			}
 		}
 	}
 }
