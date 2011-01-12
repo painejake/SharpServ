@@ -240,6 +240,72 @@ namespace SharpServ
 				Console.WriteLine("Error Occurred : {0} ", e );
 			}
 		}
+		
+		public void StartListen()
+		{
+			int iStartPos = 0;
+			String sRequest;
+			String sDirName;
+			String sRequestedFile;
+			String sErrorMessage;
+			String sLocalDir;
+			String sWebServerRoot = "\\www\\";
+			String sPhysicalFilePath = "";
+			String sFormattedMessage = "";
+			String sResponce = "";
+			
+			while(true)
+			{
+				// Accept a new connection
+				Socket sSocket = serverListener.AcceptSocket();
+				
+				Console.WriteLine("Socket Type " + sSocket.SocketType);
+				if(sSocket.Connected)
+				{
+					Console.WriteLine("\nClient Connected!\n==================\nClient IP {0}\n", sSocket.RemoteEndPoint);
+					
+					// Make a byte array and receive data from the client
+					Byte[] bReceive = new Byte[1024];
+					int i = sSocket.Receive(bReceive,bReceive.Length,0);
+					
+					// Convert byte to string
+					string sBuffer = Encoding.ASCII.GetString(bReceive);
+					
+					// At present we will only deal with GET
+					if(sBuffer.Substring(0,3) != "GET")
+					{
+						Console.WriteLine("Only GET method is supported.");
+						sSocket.Close();
+						return;
+					}
+					
+					// Look for HTTP requests
+					iStartPos = sBuffer.IndexOf("HTTP",1);
+					
+					// Get the HTTP text and version
+					// e.g. It will return HTTP/1.1
+					string sHTTPVersion = sBuffer.Substring(iStartPos,8);
+					
+					// Extract the requested type and requested file/directory
+					sRequest = sBuffer.Substring(0,iStartPos - 1);
+					
+					// Replace backslash with forward slash - if any
+					sRequest.Replace("\\","/");
+					
+					// If the file name is not supplied add forward slash to
+					// indicate that it is a directory and then we will look for
+					// default file name
+					if((sRequest.IndexOf(".") < 1) && (!sRequest.EndsWith("/")))
+					{
+						sRequest = sRequest + "/";
+					}
+					// Extract the requested file name
+					iStartPos = sRequest.LastIndexOf("/") + 1;
+					sRequestedFile = sRequest.Substring(iStartPos);
+					
+					// Extract the directory name
+					sDirName = sRequest.Substring(sRequest.IndexOf("/"),
+					                              sRequest.LastIndexOf("/") - 3);
 	}
 }
 
