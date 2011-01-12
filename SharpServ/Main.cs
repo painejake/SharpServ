@@ -81,6 +81,60 @@ namespace SharpServ
 			else
 				return "";
 		}
+		
+		public string GetLocalPath(string webServerRoot, string sDirName)
+		{
+			StreamReader sReader;
+			String sLine = "";
+			String sVirtualDir = "";
+			String sActualDir = "";
+			int iStartPos = 0;
+			
+			// Remove any extra spaces
+			sDirName.Trim();
+			
+			// Convert to lowercase
+			webServerRoot = webServerRoot.ToLower();
+			sDirName = sDirName.ToLower();
+			
+			try
+			{
+				// Here we open the Vdir.txt to find out
+				// the list of virtual directories
+				sReader = new StreamReader("data\\Vdir.txt");
+				
+				while((sLine = sReader.ReadLine()) !=null)
+				{
+					// Remove any extra spaces
+					sLine.Trim();
+					
+					if(sLine.Length > 0)
+					{
+						// Find the separator
+						iStartPos = sLine.IndexOf(";");
+						
+						// Convert to lowercase
+						sLine = sLine.ToLower();
+						sVirtualDir = sLine.Substring(0,iStartPos);
+						sActualDir = sLine.Substring(iStartPos + 1);
+						
+						if(sVirtualDir == sDirName)
+						{
+							break;
+						}
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("An exception occured: " + e.ToString());
+			}
+			
+			if(sVirtualDir == sDirName)
+				return sActualDir;
+			else
+				return "";
+		}
 	}
 }
 
