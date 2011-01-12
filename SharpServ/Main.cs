@@ -249,8 +249,8 @@ namespace SharpServ
 			String sRequestedFile;
 			String sErrorMessage;
 			String sLocalDir;
-			String sWebServerRoot = "\\www\\";
-			String sPhysicalFilePath = "";
+			String sWebServerRoot = "\\www\\"; 	// Web server root set here
+			String sPhysicalFilePath = "";		// will be moved to XML config
 			String sFormattedMessage = "";
 			String sResponce = "";
 			
