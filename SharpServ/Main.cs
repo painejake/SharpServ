@@ -17,6 +17,7 @@
  */
 
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -32,7 +33,7 @@ namespace SharpServ
 		// into a XML configuration file at a later date
 		private int port = 81;
 		
-		public SharpServ()
+		public MainClass()
 		{
 			try
 			{
@@ -55,14 +56,14 @@ namespace SharpServ
 		
 		public string GetDefaultFileName(string sLocalDirectory)
 		{
-			SteamReader sReader;
+			StreamReader sReader;
 			String sLine = "";
 			
 			try
 			{
 				// Here we open Default.txt to find out
 				// the default files to serve
-				sReader = new SteamReader("data\\Default.txt");
+				sReader = new StreamReader("data\\Default.txt");
 				
 				while ((sLine = sReader.ReadLine()) !=null)
 				{
