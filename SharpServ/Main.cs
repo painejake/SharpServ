@@ -41,8 +41,9 @@ namespace SharpServ
 				serverListener = new TcpListener(port);
 				serverListener.Start();
 				
-				Console.WriteLine("SharpServ started. Press ^C to stop...");
-				Console.WriteLine("Listening on port: " + port);
+				Console.WriteLine("SharpServ v0.1");
+				Console.WriteLine("Listening on port: " + port + "\n");
+				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
 				// Start the thread which casll the methods 'StartListen'
 				Thread listenThread = new Thread(new ThreadStart(StartListen));
@@ -54,6 +55,17 @@ namespace SharpServ
 			}
 		}
 		
+		/// <summary>
+		/// Returns the default file name
+		/// Input is the WebServerRoot folder
+		/// Output is the default file name
+		/// </summary>
+		/// <param name="sLocalDirectory">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetDefaultFileName(string sLocalDirectory)
 		{
 			StreamReader sReader;
@@ -63,7 +75,7 @@ namespace SharpServ
 			{
 				// Here we open Default.txt to find out
 				// the default files to serve
-				sReader = new StreamReader("data\\Default.txt");
+				sReader = new StreamReader("C:\\www\\data\\Default.txt");
 				
 				while ((sLine = sReader.ReadLine()) !=null)
 				{
@@ -83,6 +95,15 @@ namespace SharpServ
 				return "";
 		}
 		
+		/// <summary>
+		/// This function takes FileName as input and returns the MIME type. 
+		/// </summary>
+		/// <param name="sRequestedFile">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetMimeType(string sRequestedFile)
 		{
 			StreamReader sReader;
@@ -100,7 +121,7 @@ namespace SharpServ
 			{
 				// Open the Vdir.txt to find out the list
 				// virtual directories
-				sReader = new StreamReader("data\\Mime.txt");
+				sReader = new StreamReader("C:\\www\\data\\Mime.txt");
 				
 				while((sLine = sReader.ReadLine()) !=null)
 				{
@@ -133,6 +154,18 @@ namespace SharpServ
 				return "";
 		}
 		
+		/// <summary>
+		/// Returns the physical path
+		/// </summary>
+		/// <param name="webServerRoot">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="sDirName">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <returns>
+		/// A <see cref="System.String"/>
+		/// </returns>
 		public string GetLocalPath(string webServerRoot, string sDirName)
 		{
 			StreamReader sReader;
@@ -155,7 +188,7 @@ namespace SharpServ
 			{
 				// Here we open the Vdir.txt to find out
 				// the list of virtual directories
-				sReader = new StreamReader("data\\Vdir.txt");
+				sReader = new StreamReader("C:\\www\\data\\Vdir.txt");
 				
 				while((sLine = sReader.ReadLine()) !=null)
 				{
@@ -194,6 +227,24 @@ namespace SharpServ
 				return "";
 		}
 		
+		/// <summary>
+		/// This function sends the header information to the client (browser)
+		/// </summary>
+		/// <param name="sHTTPVersion">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="sMIMEHeader">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="iTotBytes">
+		/// A <see cref="System.Int32"/>
+		/// </param>
+		/// <param name="sStatusCode">
+		/// A <see cref="System.String"/>
+		/// </param>
+		/// <param name="sSocket">
+		/// A <see cref="Socket"/>
+		/// </param>
 		public void SendHeader(string sHTTPVersion, string sMIMEHeader,
 		                       int iTotBytes, string sStatusCode, ref Socket sSocket)
 		{
@@ -220,11 +271,29 @@ namespace SharpServ
 			Console.WriteLine("Total Bytes: " + iTotBytes.ToString());
 		}
 		
+		/// <summary>
+		/// Overloaded function, takes the string and coverts to bytes and calls
+		/// </summary>
+		/// <param name="sData">
+		/// A <see cref="String"/>
+		/// </param>
+		/// <param name="sSocket">
+		/// A <see cref="Socket"/>
+		/// </param>
 		private void SendToBrowser(String sData, ref Socket sSocket)
 		{
 			SendToBrowser (Encoding.ASCII.GetBytes(sData), ref sSocket);
 		}
 		
+		/// <summary>
+		/// Sends the data to the client (browser) 
+		/// </summary>
+		/// <param name="bSendData">
+		/// A <see cref="Byte[]"/>
+		/// </param>
+		/// <param name="sSocket">
+		/// A <see cref="Socket"/>
+		/// </param>
 		public void SendToBrowser(Byte[] bSendData, ref Socket sSocket)
 		{
 			int numBytes = 0;
@@ -251,8 +320,9 @@ namespace SharpServ
 		
 		public static void Main()
 		{
-			WebServer WS = new WebServer();
+			WebServer  WS = new WebServer();
 		}
+		
 		
 		public void StartListen()
 		{
@@ -262,7 +332,7 @@ namespace SharpServ
 			String sRequestedFile;
 			String sErrorMessage;
 			String sLocalDir;
-			String sWebServerRoot = "\\www\\"; 	// Web server root set here
+			String sWebServerRoot = "C:\\www\\"; 	// Web server root set here
 			String sPhysicalFilePath = "";		// will be moved to XML config
 			String sFormattedMessage = "";
 			String sResponse = "";
@@ -275,7 +345,7 @@ namespace SharpServ
 				Console.WriteLine("Socket Type " + sSocket.SocketType);
 				if(sSocket.Connected)
 				{
-					Console.WriteLine("\nClient Connected!\n==================\nClient IP {0}\n", sSocket.RemoteEndPoint);
+					Console.WriteLine("Client Connected.\nClient IP {0}\n==================\n", sSocket.RemoteEndPoint);
 					
 					// Make a byte array and receive data from the client
 					Byte[] bReceive = new Byte[1024];
