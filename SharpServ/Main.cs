@@ -32,7 +32,7 @@ namespace SharpServ
 		// Port the web server will listen on. Will move this
 		// into a XML configuration file at a later date
 		private int port = 81;
-		
+
 		public WebServer()
 		{
 			try
@@ -315,6 +315,33 @@ namespace SharpServ
 					sDirName = sRequest.Substring(sRequest.IndexOf("/"),
 					                              sRequest.LastIndexOf("/") - 3);
 					
+					if(sDirName == "/")
+						sLocalDir = sWebServerRoot;
+					else
+					{
+						// Get the Virutal Directory
+						sLocalDir = GetLocalPath(sWebServerRoot, sDirName);
+					}
+					
+					Console.WriteLine("Directory Requested: " + sLocalDir);
+					
+					// If the physical directory does not exists then
+					// display the error message
+					if(sLocalDir.Length == 0)
+					{
+						sErrorMessage ="<h2>Oh Dear! Requested directory does not exist.</h2><br />";
+						
+						// Format the message
+						SendHeader(sHTTPVersion, "", sErrorMessage.Length, " 404 Not Found", ref sSocket);
+						
+						// Send to the browser
+						SendToBrowser(sErrorMessage, ref sSocket);
+						
+						sSocket.Close();
+						
+						continue;
+					}
+					
 					// Identify the file name
 					// If the file name is not supplied then look in the default file list
 					if(sRequestedFile.Length == 0)
@@ -355,7 +382,7 @@ namespace SharpServ
 						
 						sResponse = "";
 						
-						FileStream fs= new FileStream(sPhysicalFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+						FileStream fs = new FileStream(sPhysicalFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 						
 						// Create a reader that can read bytes from FileStream
 						BinaryReader reader = new BinaryReader(fs);
