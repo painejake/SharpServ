@@ -327,6 +327,8 @@ namespace SharpServ
 		public static void Main()
 		{
 			WebServer  WS = new WebServer();
+			// Hacky fix to stop warning CS0219
+			WS.ToString();
 		}
 		
 		
@@ -355,6 +357,9 @@ namespace SharpServ
 					
 					// Make a byte array and receive data from the client
 					Byte[] bReceive = new Byte[1024];
+					
+					// Required to stop server locking up
+					// Will tidy up in the future
 					int i = sSocket.Receive(bReceive,bReceive.Length,0);
 					
 					// Convert byte to string
