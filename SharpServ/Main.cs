@@ -27,11 +27,11 @@ namespace SharpServ
 {
 	class WebServer
 	{
-		private TcpListener serverListener;
+		private TcpListener sListener;
 
 		// Port the web server will listen on. Will move this
 		// into a XML configuration file at a later date
-		private int port = 81;
+		private int port = 80;
 		
 		// Displays CPU arch e.g x86
 		String cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
@@ -41,8 +41,8 @@ namespace SharpServ
 			try
 			{
 				// Start listening on selected port
-				serverListener = new TcpListener(port);
-				serverListener.Start();
+				sListener = new TcpListener(port);
+				sListener.Start();
 				
                 //Version sVersion = new Version(Application.ProductVersion);
 				//Console.WriteLine("SharpServ" + "_v" + sVersion.Major + "." + sVersion.Minor + "_OS_" + cpuArch + "_r" + sVersion.Revision);
@@ -52,8 +52,8 @@ namespace SharpServ
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
 				// Start the thread which casll the methods 'StartListen'
-				Thread listenThread = new Thread(new ThreadStart(StartListen));
-				listenThread.Start();
+				Thread lThread = new Thread(new ThreadStart(StartListen));
+				lThread.Start();
 			}
 			catch(Exception e)
 			{
@@ -346,7 +346,7 @@ namespace SharpServ
 			while(true)
 			{
 				// Accept a new connection
-				Socket sSocket = serverListener.AcceptSocket();
+				Socket sSocket = sListener.AcceptSocket();
 				
 				Console.WriteLine("Socket Type " + sSocket.SocketType);
 				if(sSocket.Connected)
