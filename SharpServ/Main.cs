@@ -312,7 +312,7 @@ namespace SharpServ
 						Console.WriteLine("Socket Error! Cannot send packet!");
 					else
 					{
-						Console.WriteLine("No. of bytes send {0}" , numBytes);
+						Console.WriteLine("Number of bytes sent {0}" , numBytes);
 					}
 				}
 				else
@@ -320,7 +320,7 @@ namespace SharpServ
 			}
 			catch(Exception e)
 			{
-				Console.WriteLine("Error Occurred : {0} ", e );
+				Console.WriteLine("Error Occurred: {0} ", e );
 			}
 		}
 		
@@ -340,7 +340,7 @@ namespace SharpServ
 			String sRequestedFile;
 			String sErrorMessage;
 			String sLocalDir;
-			String sWebServerRoot = "C:\\www\\"; 	// Web server root set here
+			String sWebServerRoot = "C:\\wwaw\\"; 	// Web server root set here
 			String sPhysicalFilePath = "";		// will be moved to XML config
 			String sFormattedMessage = "";
 			String sResponse = "";
@@ -350,10 +350,10 @@ namespace SharpServ
 				// Accept a new connection
 				Socket sSocket = sListener.AcceptSocket();
 				
-				Console.WriteLine("Socket Type " + sSocket.SocketType);
+				Console.WriteLine("Socket Type " + sSocket.SocketType + "\n");
 				if(sSocket.Connected)
 				{
-					Console.WriteLine("Client Connected.\nClient IP {0}\n==================\n", sSocket.RemoteEndPoint);
+					Console.WriteLine("Client Connected\nClient IP {0}\n==================\n", sSocket.RemoteEndPoint);
 					
 					// Make a byte array and receive data from the client
 					Byte[] bReceive = new Byte[1024];
@@ -437,7 +437,7 @@ namespace SharpServ
 						sRequestedFile = GetDefaultFileName(sLocalDir);						
 						if(sRequestedFile == "")
 						{
-							sErrorMessage = "<h2>Oh Dear! No default file name specified</h2>";
+							sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>500 - Internal Server Error</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>500 - Internal Server Error</h1>\r" + "<div class='foot'>SharpServ/0.1</div>\r" + "</body>\r" + "</html>\r";
 							SendHeader(sHTTPVersion, "", sErrorMessage.Length,
 							           "404 Not Found", ref sSocket);
 							SendToBrowser(sErrorMessage, ref sSocket);
@@ -456,7 +456,7 @@ namespace SharpServ
 					
 					if(File.Exists(sPhysicalFilePath) == false)
 					{
-						sErrorMessage = "<h2>404 Error! File does not exist.</h2>";
+						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/0.1</div>\r" + "</body>\r" + "</html>\r";
 						SendHeader(sHTTPVersion, "", sErrorMessage.Length,
 						           "404 Not Found", ref sSocket);
 						SendToBrowser(sErrorMessage, ref sSocket);
