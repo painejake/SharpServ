@@ -83,6 +83,56 @@ namespace SharpServ
 				return "";
 		}
 		
+		public string GetMimeType(string sRequestedFile)
+		{
+			StreamReader sReader;
+			String sLine = "";
+			String sMimeType = "";
+			String sFileExt = "";
+			String sMimeExt = "";
+			
+			// Convert to lowercase
+			sRequestedFile = sRequestedFile.ToLower();
+			int iStartPos = sRequestedFile.IndexOf(".");
+			sFileExt = sRequestedFile.Substring(iStartPos);
+			
+			try
+			{
+				// Open the Vdir.txt to find out the list
+				// virtual directories
+				sReader = new StreamReader("data\\Mime.txt");
+				
+				while((sLine = sReader.ReadLine()) !=null)
+				{
+					sLine.Trim();
+					
+					if(sLine.Length > 0)
+					{
+						// Find the seperator
+						iStartPos = sLine.IndexOf(";");
+						
+						// Convert to lower case
+						sLine = sLine.ToLower();
+						
+						sMimeExt = sLine.Substring(0,iStartPos);
+						sMimeType = sLine.Substring(iStartPos + 1);
+						
+						if(sMimeExt == sFileExt)
+							break;
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("An exception occured: " + e.ToString());
+			}
+			
+			if(sMimeExt == sFileExt)
+				return sMimeType;
+			else
+				return "";
+		}
+		
 		public string GetLocalPath(string webServerRoot, string sDirName)
 		{
 			StreamReader sReader;
@@ -144,56 +194,6 @@ namespace SharpServ
 				return "";
 		}
 		
-		public string GetMimeType(string sRequestedFile)
-		{
-			StreamReader sReader;
-			String sLine = "";
-			String sMimeType = "";
-			String sFileExt = "";
-			String sMimeExt = "";
-			
-			// Convert to lowercase
-			sRequestedFile = sRequestedFile.ToLower();
-			int iStartPos = sRequestedFile.IndexOf(".");
-			sFileExt = sRequestedFile.Substring(iStartPos);
-			
-			try
-			{
-				// Open the Vdir.txt to find out the list
-				// virtual directories
-				sReader = new StreamReader("data\\Mime.txt");
-				
-				while((sLine = sReader.ReadLine()) !=null)
-				{
-					sLine.Trim();
-					
-					if(sLine.Length > 0)
-					{
-						// Find the seperator
-						iStartPos = sLine.IndexOf(";");
-						
-						// Convert to lower case
-						sLine = sLine.ToLower();
-						
-						sMimeExt = sLine.Substring(0,iStartPos);
-						sMimeType = sLine.Substring(iStartPos + 1);
-						
-						if(sMimeExt == sFileExt)
-							break;
-					}
-				}
-			}
-			catch(Exception e)
-			{
-				Console.WriteLine("An exception occured: " + e.ToString());
-			}
-			
-			if(sMimeExt == sFileExt)
-				return sMimeType;
-			else
-				return "";
-		}
-		
 		public void SendHeader(string sHTTPVersion, string sMIMEHeader,
 		                       int iTotBytes, string sStatusCode, ref Socket sSocket)
 		{
@@ -247,6 +247,11 @@ namespace SharpServ
 			{
 				Console.WriteLine("Error Occurred : {0} ", e );
 			}
+		}
+		
+		public static void Main()
+		{
+			WebServer WS = new WebServer();
 		}
 		
 		public void StartListen()
