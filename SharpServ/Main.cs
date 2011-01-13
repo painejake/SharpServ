@@ -224,9 +224,9 @@ namespace SharpServ
 				Console.WriteLine("An exception occured: " + e.ToString());
 			}
 			
-			Console.WriteLine("Virtual:----: " + sVirtualDir);
-			Console.WriteLine("Directory:--: " + sDirName);
-			Console.WriteLine("Physical:---: " + sActualDir);
+			Console.WriteLine("Virtual: " + sVirtualDir);
+			Console.WriteLine("Directory: " + sDirName);
+			Console.WriteLine("Physical:" + sActualDir);
 			if(sVirtualDir == sDirName)
 				return sActualDir;
 			else
@@ -274,7 +274,7 @@ namespace SharpServ
 			
 			SendToBrowser(bSendData, ref sSocket);
 			
-			Console.WriteLine("Total Bytes: " + iTotBytes.ToString());
+			Console.WriteLine("Total bytes requested: " + iTotBytes.ToString());
 		}
 		
 		/// <summary>
@@ -350,7 +350,7 @@ namespace SharpServ
 				// Accept a new connection
 				Socket sSocket = sListener.AcceptSocket();
 				
-				Console.WriteLine("Socket Type " + sSocket.SocketType + "\n");
+				Console.WriteLine("\nSocket Type: " + sSocket.SocketType);
 				if(sSocket.Connected)
 				{
 					Console.WriteLine("Client Connected\nClient IP {0}", sSocket.RemoteEndPoint);
@@ -416,7 +416,7 @@ namespace SharpServ
 					// display the error message
 					if(sLocalDir.Length == 0)
 					{
-						sErrorMessage ="<h2>Oh Dear! Requested directory does not exist.</h2><br />";
+						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/0.1</div>\r" + "</body>\r" + "</html>\r";
 						
 						// Format the message
 						SendHeader(sHTTPVersion, "", sErrorMessage.Length, " 404 Not Found", ref sSocket);
