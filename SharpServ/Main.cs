@@ -32,7 +32,10 @@ namespace SharpServ
 		// Port the web server will listen on. Will move this
 		// into a XML configuration file at a later date
 		private int port = 81;
-
+		
+		// Displays CPU arch e.g x86
+		String cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");		
+		
 		public WebServer()
 		{
 			try
@@ -41,7 +44,10 @@ namespace SharpServ
 				serverListener = new TcpListener(port);
 				serverListener.Start();
 				
-				Console.WriteLine("SharpServ v0.1");
+                //Version sVersion = new Version(Application.ProductVersion);
+				//Console.WriteLine("SharpServ" + "_v" + sVersion.Major + "." + sVersion.Minor + "_OS_" + cpuArch + "_r" + sVersion.Revision);
+
+                Console.WriteLine("SharpServ");
 				Console.WriteLine("Listening on port: " + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
@@ -368,6 +374,7 @@ namespace SharpServ
 					// Get the HTTP text and version
 					// e.g. It will return HTTP/1.1
 					string sHTTPVersion = sBuffer.Substring(iStartPos,8);
+					
 					
 					// Extract the requested type and requested file/directory
 					sRequest = sBuffer.Substring(0,iStartPos - 1);
