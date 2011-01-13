@@ -26,7 +26,7 @@ using System.Threading;
 namespace SharpServ
 {
 	class WebServer
-	{
+	{		
 		private TcpListener sListener;
 
 		// Port the web server will listen on. Will move this
@@ -188,7 +188,7 @@ namespace SharpServ
 			sDirName = sDirName.ToLower();
 			
 			// Remove the slash
-			// sDirName = sDirName.Substring(1,sDirName.Length - 2);
+			sDirName = sDirName.Substring(1,sDirName.Length - 2);
 			
 			try
 			{
@@ -265,7 +265,7 @@ namespace SharpServ
 			// Server information - In future will pull this from a
 			// config file when package is built
 			sBuffer = sBuffer + sHTTPVersion + sStatusCode + "\r\n";
-			sBuffer = sBuffer + "Server: SharpServ-b\r\n";
+			sBuffer = sBuffer + "Server: SharpServ/0.1.*\r\n";
 			sBuffer = sBuffer + "Content-Type: " + sMIMEHeader + "\r\n";
 			sBuffer = sBuffer + "Accept-Ranges: bytes\r\n";
 			sBuffer = sBuffer + "Content-Length: " + iTotBytes + "\r\n\r\n";
@@ -340,7 +340,7 @@ namespace SharpServ
 			String sRequestedFile;
 			String sErrorMessage;
 			String sLocalDir;
-			String sWebServerRoot = "C:\\wwaw\\"; 	// Web server root set here
+			String sWebServerRoot = "C:\\www\\"; 	// Web server root set here
 			String sPhysicalFilePath = "";		// will be moved to XML config
 			String sFormattedMessage = "";
 			String sResponse = "";
@@ -353,13 +353,13 @@ namespace SharpServ
 				Console.WriteLine("Socket Type " + sSocket.SocketType + "\n");
 				if(sSocket.Connected)
 				{
-					Console.WriteLine("Client Connected\nClient IP {0}\n==================\n", sSocket.RemoteEndPoint);
+					Console.WriteLine("Client Connected\nClient IP {0}", sSocket.RemoteEndPoint);
 					
 					// Make a byte array and receive data from the client
 					Byte[] bReceive = new Byte[1024];
 					
 					// Required to stop server locking up
-					// Will tidy up in the future
+					// Will cause an exception when request is not completed
 					int i = sSocket.Receive(bReceive,bReceive.Length,0);
 					
 					// Convert byte to string
