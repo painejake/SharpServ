@@ -46,8 +46,11 @@ namespace SharpServ
 				
                 //Version sVersion = new Version(Application.ProductVersion);
 				//Console.WriteLine("SharpServ" + "_v" + sVersion.Major + "." + sVersion.Minor + "_OS_" + cpuArch + "_r" + sVersion.Revision);
+				
+				//OperatingSystem os = Environment.OSVersion;
 
-                Console.WriteLine("SharpServ " + cpuArch);
+                Console.WriteLine("SharpServ" + cpuArch);
+				//Console.WriteLine("OS:" + os.Platform + "\nVer:" + os.Version + "\nToString:" + os.ToString());
 				Console.WriteLine("Listening on port: " + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
@@ -81,7 +84,7 @@ namespace SharpServ
 			{
 				// Here we open Default.txt to find out
 				// the default files to serve
-				sReader = new StreamReader("C:\\www\\data\\Default.txt");
+				sReader = new StreamReader("\\www\\data\\default.txt");
 				
 				while ((sLine = sReader.ReadLine()) !=null)
 				{
@@ -127,7 +130,7 @@ namespace SharpServ
 			{
 				// Open the Vdir.txt to find out the list
 				// virtual directories
-				sReader = new StreamReader("C:\\www\\data\\Mime.txt");
+				sReader = new StreamReader("/www/data/mime.txt");
 				
 				while((sLine = sReader.ReadLine()) !=null)
 				{
@@ -194,7 +197,7 @@ namespace SharpServ
 			{
 				// Here we open the Vdir.txt to find out
 				// the list of virtual directories
-				sReader = new StreamReader("C:\\www\\data\\Vdir.txt");
+				sReader = new StreamReader("/www/data/vdir.txt");
 				
 				while((sLine = sReader.ReadLine()) !=null)
 				{
@@ -340,7 +343,7 @@ namespace SharpServ
 			String sRequestedFile;
 			String sErrorMessage;
 			String sLocalDir;
-			String sWebServerRoot = "C:\\www\\"; 	// Web server root set here
+			String sWebServerRoot = "/www/"; 	// Web server root set here
 			String sPhysicalFilePath = "";		// will be moved to XML config
 			String sFormattedMessage = "";
 			String sResponse = "";
