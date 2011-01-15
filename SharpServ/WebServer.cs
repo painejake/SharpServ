@@ -61,7 +61,7 @@ namespace SharpServ
                 //Version sVersion = new Version(Application.ProductVersion);
 				//Console.WriteLine("SharpServ" + "_v" + sVersion.Major + "." + sVersion.Minor + "_OS_" + cpuArch + "_r" + sVersion.Revision);
 				
-                Console.WriteLine("SharpServ/" + pVersion + " " + os.Platform + " " + cpuArch + "\n");
+				Console.WriteLine("SharpServ/" + pVersion + " " + os.Platform + " " + cpuArch + "\n");
 				Console.WriteLine("Bind address: " + localAddr + ":" + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
