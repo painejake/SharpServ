@@ -33,8 +33,14 @@ namespace SharpServ
 		// into a XML configuration file at a later date
 		private int port = 80;
 		
+		// Location of main configuration files
+		// Need to move to XML config
+		private string cDefaultConfig = "C:\\www\\data\\default.txt";
+		private string cVirtualConfig = "C:\\www\\data\\vdir.txt";
+		private string cMIMETypConfig = "C:\\www\\data\\mime.txt";
+		
 		// Displays CPU arch e.g x86
-		String cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
+		private string cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
 		
 		OperatingSystem os = Environment.OSVersion;
 		
@@ -83,7 +89,7 @@ namespace SharpServ
 			{
 				// Here we open Default.txt to find out
 				// the default files to serve
-				sReader = new StreamReader("\\www\\data\\default.txt");
+				sReader = new StreamReader(cDefaultConfig);
 				
 				while ((sLine = sReader.ReadLine()) !=null)
 				{
@@ -129,7 +135,7 @@ namespace SharpServ
 			{
 				// Open the Vdir.txt to find out the list
 				// virtual directories
-				sReader = new StreamReader("/www/data/mime.txt");
+				sReader = new StreamReader(cMIMETypConfig);
 				
 				while((sLine = sReader.ReadLine()) !=null)
 				{
@@ -196,7 +202,7 @@ namespace SharpServ
 			{
 				// Here we open the Vdir.txt to find out
 				// the list of virtual directories
-				sReader = new StreamReader("/www/data/vdir.txt");
+				sReader = new StreamReader(cVirtualConfig);
 				
 				while((sLine = sReader.ReadLine()) !=null)
 				{
