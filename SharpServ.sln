@@ -7,14 +7,42 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Debug|x86.ActiveCfg = Debug|x86
 		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Debug|x86.Build.0 = Debug|x86
+		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Release|x86.ActiveCfg = Release|x86
 		{B7CC0C07-FF18-4C28-A6AE-3336D8C9B62F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SharpServ\SharpServ.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = null
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+		$0.StandardHeader = $4
+		$4.Text = 
+		$4.inheritsSet = Apache2License
+		$0.VersionControlPolicy = $5
+		$5.inheritsSet = Mono
+		$0.ChangeLogPolicy = $6
+		$6.UpdateMode = None
+		$6.MessageStyle = $7
+		$7.LineAlign = 0
+		$6.inheritsSet = Mono
+		description = SharpServ is a cross platform web server written in C# using the Mono framework.
 	EndGlobalSection
 EndGlobal
