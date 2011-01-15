@@ -233,7 +233,7 @@ namespace SharpServ
 			
 			Console.WriteLine("Virtual: " + sVirtualDir);
 			Console.WriteLine("Directory: " + sDirName);
-			Console.WriteLine("Physical:" + sActualDir);
+			Console.WriteLine("Physical: " + sActualDir);
 			if(sVirtualDir == sDirName)
 				return sActualDir;
 			else
@@ -364,7 +364,7 @@ namespace SharpServ
 					// Make a byte array and receive data from the client
 					Byte[] bReceive = new Byte[1024];
 					
-					// Required to stop server locking up
+					// Required for now to stop server locking up
 					// Will cause an exception when request is not completed
 					int i = sSocket.Receive(bReceive,bReceive.Length,0);
 					
@@ -385,7 +385,6 @@ namespace SharpServ
 					// Get the HTTP text and version
 					// e.g. It will return HTTP/1.1
 					string sHTTPVersion = sBuffer.Substring(iStartPos,8);
-					
 					
 					// Extract the requested type and requested file/directory
 					sRequest = sBuffer.Substring(0,iStartPos - 1);
