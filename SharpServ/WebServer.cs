@@ -29,15 +29,14 @@ namespace SharpServ
 	{		
 		private TcpListener sListener;
 
-		// Port the web server will listen on. Will move this
-		// into a XML configuration file at a later date
+		// General Configuration ///////////////////////////////////
+		// Maybe better to have String xxx not private string
 		private int port = 80;
-		
-		// Location of main configuration files
-		// Need to move to XML config
 		private string cDefaultConfig = "C:\\www\\data\\default.txt";
 		private string cVirtualConfig = "C:\\www\\data\\vdir.txt";
 		private string cMIMETypConfig = "C:\\www\\data\\mime.txt";
+		private string sWebServerRoot = "C:\\www\\";
+		//////////////////////////////////////////////////////////// 
 		
 		// Displays CPU arch e.g x86
 		private string cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
@@ -348,8 +347,7 @@ namespace SharpServ
 			String sRequestedFile;
 			String sErrorMessage;
 			String sLocalDir;
-			String sWebServerRoot = "/www/"; 	// Web server root set here
-			String sPhysicalFilePath = "";		// will be moved to XML config
+			String sPhysicalFilePath = "";
 			String sFormattedMessage = "";
 			String sResponse = "";
 			
