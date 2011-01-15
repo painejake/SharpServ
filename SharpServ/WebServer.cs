@@ -31,12 +31,17 @@ namespace SharpServ
 
 		// General Configuration ///////////////////////////////////
 		// Maybe better to have String xxx not private string
-		private int port = 80;
+		
+		// Bind server to port 80 and 127.0.0.1
+		Int32 port = 80;
+		IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+		
+		// Directory and config file locations
 		private string cDefaultConfig = "C:\\www\\data\\default.txt";
 		private string cVirtualConfig = "C:\\www\\data\\vdir.txt";
 		private string cMIMETypConfig = "C:\\www\\data\\mime.txt";
 		private string sWebServerRoot = "C:\\www\\";
-		//////////////////////////////////////////////////////////// 
+		////////////////////////////////////////////////////////////
 		
 		// Displays CPU arch e.g x86
 		private string cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
@@ -44,18 +49,18 @@ namespace SharpServ
 		OperatingSystem os = Environment.OSVersion;
 		
 		public WebServer()
-		{
+		{ 
 			try
 			{
 				// Start listening on selected port
-				sListener = new TcpListener(port);
+				sListener = new TcpListener(localAddr, port);
 				sListener.Start();
 				
                 //Version sVersion = new Version(Application.ProductVersion);
 				//Console.WriteLine("SharpServ" + "_v" + sVersion.Major + "." + sVersion.Minor + "_OS_" + cpuArch + "_r" + sVersion.Revision);
 				
                 Console.WriteLine("SharpServ/" + "0.1" + " " + os.Platform + " " + cpuArch + "\n");
-				Console.WriteLine("Listening on port: " + port + "\n");
+				Console.WriteLine("Bind address: " + localAddr + ":" + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
 				// Start the thread which casll the methods 'StartListen'
