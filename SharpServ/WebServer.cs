@@ -31,21 +31,23 @@ namespace SharpServ
 
 		// General Configuration ///////////////////////////////////
 		// Maybe better to have String xxx not private string
-		
 		// Bind server to port 80 and 127.0.0.1
 		Int32 port = 80;
 		IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-		
-		// Directory and config file locations
+		// Directory and config file locationsc
 		private string cDefaultConfig = "C:\\www\\data\\default.txt";
 		private string cVirtualConfig = "C:\\www\\data\\vdir.txt";
 		private string cMIMETypConfig = "C:\\www\\data\\mime.txt";
 		private string sWebServerRoot = "C:\\www\\";
 		////////////////////////////////////////////////////////////
 		
+		// Build version to string
+		private string pVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+		
 		// Displays CPU arch e.g x86
 		private string cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
 		
+		// As it says on the tin
 		OperatingSystem os = Environment.OSVersion;
 		
 		public WebServer()
@@ -59,7 +61,7 @@ namespace SharpServ
                 //Version sVersion = new Version(Application.ProductVersion);
 				//Console.WriteLine("SharpServ" + "_v" + sVersion.Major + "." + sVersion.Minor + "_OS_" + cpuArch + "_r" + sVersion.Revision);
 				
-                Console.WriteLine("SharpServ/" + "0.1" + " " + os.Platform + " " + cpuArch + "\n");
+                Console.WriteLine("SharpServ/" + pVersion + " " + os.Platform + " " + cpuArch + "\n");
 				Console.WriteLine("Bind address: " + localAddr + ":" + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
@@ -277,7 +279,7 @@ namespace SharpServ
 			// Server information - In future will pull this from a
 			// config file when package is built
 			sBuffer = sBuffer + sHTTPVersion + sStatusCode + "\r\n";
-			sBuffer = sBuffer + "Server: SharpServ/0.1.*\r\n";
+			sBuffer = sBuffer + "Server: SharpServ/" + pVersion + "\r\n";
 			sBuffer = sBuffer + "Content-Type: " + sMIMEHeader + "\r\n";
 			sBuffer = sBuffer + "Accept-Ranges: bytes\r\n";
 			sBuffer = sBuffer + "Content-Length: " + iTotBytes + "\r\n\r\n";
