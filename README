@@ -20,10 +20,25 @@ Comments are welcome.
 
 	- Jake Paine
 
+
 == Welcome to SharpServ ==
 
-SharpServ is an Open Source implementation for a web server system written
-in C# using the Mono Project.
+SharpServ is an Open Source implementation for a web server written
+in C# using the Mono framework (.NET 3.5)
 
 The project is designed to learn more about C# and the cross platform
 support provided by the Mono Project.
+
+SharpServ should build under any envrionment where Mono and/or .NET is
+avaliable.
+
+The idea is to build a web server serving HTML and CSS pages quickly,
+without leaving a large footprint behind. Eventually the web server
+should support the following features:
+
+	* Multiple listener threads.
+	* XML configuration.
+	* A plugin 'like' system.
+
+If you would like to contribute to the project please fork and show
+your changes or contact me via GitHub messenger.
