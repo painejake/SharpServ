@@ -22,13 +22,14 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Xml;
 
 namespace SharpServ
 {
 	class WebServer
 	{		
 		private TcpListener sListener;
-
+		
 		// General Configuration ///////////////////////////////////
 		// Maybe better to have String xxx not private string
 		// Bind server to port 80 and 127.0.0.1
@@ -65,9 +66,9 @@ namespace SharpServ
 				Console.WriteLine("Bind address: " + localAddr + ":" + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
 				
-				// Start the thread which casll the methods 'StartListen'
-				Thread lThread = new Thread(new ThreadStart(StartListen));
-				lThread.Start();
+				// Start the thread which calls the methods 'StartListen'
+				Thread slThread = new Thread(new ThreadStart(StartListen));
+				slThread.Start();
 			}
 			catch(Exception e)
 			{
