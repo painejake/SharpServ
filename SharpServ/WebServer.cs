@@ -429,7 +429,7 @@ namespace SharpServ
 					// display the error message
 					if(sLocalDir.Length == 0)
 					{
-						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/0.1</div>\r" + "</body>\r" + "</html>\r";
+						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/" + pVersion + "</div>\r" + "</body>\r" + "</html>\r";
 						
 						// Format the message
 						SendHeader(sHTTPVersion, "", sErrorMessage.Length, " 404 Not Found", ref sSocket);
@@ -450,7 +450,7 @@ namespace SharpServ
 						sRequestedFile = GetDefaultFileName(sLocalDir);						
 						if(sRequestedFile == "")
 						{
-							sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>500 - Internal Server Error</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>500 - Internal Server Error</h1>\r" + "<div class='foot'>SharpServ/0.1</div>\r" + "</body>\r" + "</html>\r";
+							sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>500 - Internal Server Error</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>500 - Internal Server Error</h1>\r" + "<div class='foot'>SharpServ/" + pVersion + "</div>\r" + "</body>\r" + "</html>\r";
 							SendHeader(sHTTPVersion, "", sErrorMessage.Length,
 							           "404 Not Found", ref sSocket);
 							SendToBrowser(sErrorMessage, ref sSocket);
@@ -469,7 +469,7 @@ namespace SharpServ
 					
 					if(File.Exists(sPhysicalFilePath) == false)
 					{
-						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/0.1</div>\r" + "</body>\r" + "</html>\r";
+						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/" + pVersion + "</div>\r" + "</body>\r" + "</html>\r";
 						SendHeader(sHTTPVersion, "", sErrorMessage.Length,
 						           "404 Not Found", ref sSocket);
 						SendToBrowser(sErrorMessage, ref sSocket);
