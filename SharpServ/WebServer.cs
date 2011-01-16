@@ -52,9 +52,13 @@ namespace SharpServ
 		OperatingSystem os = Environment.OSVersion;
 		
 		public WebServer()
-		{ 
+		{
 			try
 			{
+				// Start thread to load configuration file
+				Thread cfThread = new Thread(new ThreadStart(ServerConfiguration));
+				cfThread.Start();
+				
 				// Start listening on selected port
 				sListener = new TcpListener(localAddr, port);
 				sListener.Start();
@@ -74,6 +78,11 @@ namespace SharpServ
 			{
 				Console.WriteLine("An exception occured while listening: " + e.ToString());
 			}
+		}
+		
+		public void ServerConfiguration()
+		{
+			// Code
 		}
 		
 		/// <summary>
