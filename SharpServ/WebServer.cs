@@ -52,6 +52,9 @@ namespace SharpServ
 		{
 			try
 			{
+				// Clear console window
+				Console.Clear();
+				
 				// Start thread to load configuration file
 				Thread cfThread = new Thread(new ThreadStart(ServerConfiguration));
 				cfThread.Start();
@@ -60,13 +63,16 @@ namespace SharpServ
 				sListener = new TcpListener(localAddr, port);
 				sListener.Start();
 				
-				Console.WriteLine("SharpServ/" + sVersion.Major + "." + sVersion.Minor + " " + Environment.OSVersion.Platform + " " + cpuArch + " r" + sVersion.Revision);
-				Console.WriteLine("Bind address: " + localAddr + ":" + port + "\n");
-				Console.WriteLine("Press Ctrl + C to stop the server...");
+				// Display program information
+				Console.WriteLine("SharpServ/" + sVersion.Major + "." + sVersion.Minor + " " + Environment.OSVersion.Platform + " " + cpuArch + " r" + sVersion.Revision + "\n");
+				Console.WriteLine("Bind address: " + localAddr + "\n");
 				
 				// Start the thread which calls the methods 'StartListen'
 				Thread slThread = new Thread(new ThreadStart(StartListen));
 				slThread.Start();
+				
+				Console.WriteLine("Started listening on port: " + port + "\n");
+				Console.WriteLine("Press Ctrl + C to stop the server...");
 			}
 			catch(Exception e)
 			{
