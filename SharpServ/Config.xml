@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<configuration>
+	<server>>
+		<bindaddress value="127.0.0.1" />
+		<bindport value="80" />
+	</server>
+	<directory>
+		<defaultconfig value="C:\\www\\data\\default.txt" />
+		<virtualconfig value="C:\\www\\data\\vdir.txt" />
+		<mimeconfig value="C:\\www\\data\\mime.txt" />
+		<webroot value="C:\\www\\" />
+	</directory>
+</configuration>

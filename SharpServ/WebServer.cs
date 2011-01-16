@@ -33,13 +33,13 @@ namespace SharpServ
 		// General Configuration ///////////////////////////////////
 		// Maybe better to have String xxx not private string
 		// Bind server to port 80 and 127.0.0.1
-		Int32 port = 80;
-		IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 		// Directory and config file locationsc
-		private string cDefaultConfig = "C:\\www\\data\\default.txt";
-		private string cVirtualConfig = "C:\\www\\data\\vdir.txt";
-		private string cMIMETypConfig = "C:\\www\\data\\mime.txt";
-		private string sWebServerRoot = "C:\\www\\";
+		private string cDefaultConfig = "";
+		private string cVirtualConfig = "";
+		private string cMIMETypConfig = "";
+		private string sWebServerRoot = "";
+		private string bServerAddress = "";
+		private string bServerPort = "";
 		////////////////////////////////////////////////////////////
 		
 		// Build version to string
@@ -51,14 +51,20 @@ namespace SharpServ
 		// As it says on the tin
 		OperatingSystem os = Environment.OSVersion;
 		
+		// Start thread to load configuration file
+		public void ConfigThread()
+		{
+			Thread cfThread = new Thread(new ThreadStart(ServerConfiguration));
+			cfThread.Start();
+		}
+		
 		public WebServer()
 		{
 			try
 			{
-				// Start thread to load configuration file
-				Thread cfThread = new Thread(new ThreadStart(ServerConfiguration));
-				cfThread.Start();
 				
+				Int32 port = 80;
+				IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 				// Start listening on selected port
 				sListener = new TcpListener(localAddr, port);
 				sListener.Start();
@@ -69,6 +75,7 @@ namespace SharpServ
 				Console.WriteLine("SharpServ/" + pVersion + " " + os.Platform + " " + cpuArch + "\n");
 				Console.WriteLine("Bind address: " + localAddr + ":" + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...\n");
+				Console.WriteLine("Server Root: " + sWebServerRoot);
 				
 				// Start the thread which calls the methods 'StartListen'
 				Thread slThread = new Thread(new ThreadStart(StartListen));
@@ -82,7 +89,24 @@ namespace SharpServ
 		
 		public void ServerConfiguration()
 		{
-			// Code
+			try
+			{
+				// Load the XML document
+				XmlDocument loadDoc = new XmlDocument();
+				loadDoc.Load("Config.xml");
+			
+				// XML configuration settings to strings
+				cDefaultConfig = loadDoc.SelectSingleNode("/directory/defaultconfig").Attributes["value"].InnerText;
+				cVirtualConfig = loadDoc.SelectSingleNode("/directory/virtualconfig").Attributes["value"].InnerText;
+				cMIMETypConfig = loadDoc.SelectSingleNode("/directory/mimeconfig").Attributes["value"].InnerText;
+				sWebServerRoot = loadDoc.SelectSingleNode("/directory/webroot").Attributes["value"].InnerText;
+				bServerAddress = loadDoc.SelectSingleNode("/bindaddress").Attributes["value"].InnerText;
+				bServerPort = loadDoc.SelectSingleNode("/bindport").Attributes["value"].InnerText;
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("An exception occured: " + e.ToString());
+			}
 		}
 		
 		/// <summary>
@@ -100,7 +124,7 @@ namespace SharpServ
 		{
 			StreamReader sReader;
 			String sLine = "";
-			
+
 			try
 			{
 				// Here we open Default.txt to find out
