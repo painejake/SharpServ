@@ -96,12 +96,12 @@ namespace SharpServ
 				loadDoc.Load("Config.xml");
 			
 				// XML configuration settings to strings
-				cDefaultConfig = loadDoc.SelectSingleNode("/directory/defaultconfig").Attributes["value"].InnerText;
-				cVirtualConfig = loadDoc.SelectSingleNode("/directory/virtualconfig").Attributes["value"].InnerText;
-				cMIMETypConfig = loadDoc.SelectSingleNode("/directory/mimeconfig").Attributes["value"].InnerText;
-				sWebServerRoot = loadDoc.SelectSingleNode("/directory/webroot").Attributes["value"].InnerText;
-				bServerAddress = loadDoc.SelectSingleNode("/bindaddress").Attributes["value"].InnerText;
-				bServerPort = loadDoc.SelectSingleNode("/bindport").Attributes["value"].InnerText;
+				cDefaultConfig = loadDoc.SelectSingleNode("/configuration/directory/defaultconfig").Attributes["value"].InnerText;
+				cVirtualConfig = loadDoc.SelectSingleNode("/configuration/directory/virtualconfig").Attributes["value"].InnerText;
+				cMIMETypConfig = loadDoc.SelectSingleNode("/configuration/directory/mimeconfig").Attributes["value"].InnerText;
+				sWebServerRoot = loadDoc.SelectSingleNode("/configuration/directory/webroot").Attributes["value"].InnerText;
+				bServerAddress = loadDoc.SelectSingleNode("/configuration/bindaddress").Attributes["value"].InnerText;
+				bServerPort = loadDoc.SelectSingleNode("/configuration/bindport").Attributes["value"].InnerText;
 			}
 			catch(Exception e)
 			{
