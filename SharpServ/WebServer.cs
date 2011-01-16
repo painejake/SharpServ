@@ -23,6 +23,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace SharpServ
 {
@@ -41,15 +42,11 @@ namespace SharpServ
 		private string cMIMETypConfig = "C:\\www\\data\\mime.txt";
 		private string sWebServerRoot = "C:\\www\\";
 		////////////////////////////////////////////////////////////
-		
-		// Build version to string
-		private string pVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-		
+
 		// Displays CPU arch e.g x86
 		private string cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
-		
-		// As it says on the tin
-		OperatingSystem os = Environment.OSVersion;
+		// For pulling ProductVersion
+		Version sVersion = new Version(Application.ProductVersion);
 		
 		public WebServer()
 		{
@@ -63,12 +60,9 @@ namespace SharpServ
 				sListener = new TcpListener(localAddr, port);
 				sListener.Start();
 				
-                //Version sVersion = new Version(Application.ProductVersion);
-				//Console.WriteLine("SharpServ" + "_v" + sVersion.Major + "." + sVersion.Minor + "_OS_" + cpuArch + "_r" + sVersion.Revision);
-				
-				Console.WriteLine("SharpServ/" + pVersion + " " + os.Platform + " " + cpuArch + "\n");
+				Console.WriteLine("SharpServ/" + sVersion.Major + "." + sVersion.Minor + " " + Environment.OSVersion.Platform + " " + cpuArch + " r" + sVersion.Revision);
 				Console.WriteLine("Bind address: " + localAddr + ":" + port + "\n");
-				Console.WriteLine("Press Ctrl + C to stop the server...\n");
+				Console.WriteLine("Press Ctrl + C to stop the server...");
 				
 				// Start the thread which calls the methods 'StartListen'
 				Thread slThread = new Thread(new ThreadStart(StartListen));
@@ -289,7 +283,7 @@ namespace SharpServ
 			// Server information - In future will pull this from a
 			// config file when package is built
 			sBuffer = sBuffer + sHTTPVersion + sStatusCode + "\r\n";
-			sBuffer = sBuffer + "Server: SharpServ/" + pVersion + "\r\n";
+			sBuffer = sBuffer + "Server: SharpServ/" + sVersion.Major + "." + sVersion.Minor + "\r\n";
 			sBuffer = sBuffer + "Content-Type: " + sMIMEHeader + "\r\n";
 			sBuffer = sBuffer + "Accept-Ranges: bytes\r\n";
 			sBuffer = sBuffer + "Content-Length: " + iTotBytes + "\r\n\r\n";
@@ -438,7 +432,7 @@ namespace SharpServ
 					// display the error message
 					if(sLocalDir.Length == 0)
 					{
-						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/" + pVersion + "</div>\r" + "</body>\r" + "</html>\r";
+						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/" + sVersion.Major + "." + sVersion.Minor + "</div>\r" + "</body>\r" + "</html>\r";
 						
 						// Format the message
 						SendHeader(sHTTPVersion, "", sErrorMessage.Length, " 404 Not Found", ref sSocket);
@@ -459,7 +453,7 @@ namespace SharpServ
 						sRequestedFile = GetDefaultFileName(sLocalDir);						
 						if(sRequestedFile == "")
 						{
-							sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>500 - Internal Server Error</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>500 - Internal Server Error</h1>\r" + "<div class='foot'>SharpServ/" + pVersion + "</div>\r" + "</body>\r" + "</html>\r";
+							sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>500 - Internal Server Error</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>500 - Internal Server Error</h1>\r" + "<div class='foot'>SharpServ/" + sVersion.Major + "." + sVersion.Minor + "</div>\r" + "</body>\r" + "</html>\r";
 							SendHeader(sHTTPVersion, "", sErrorMessage.Length,
 							           "404 Not Found", ref sSocket);
 							SendToBrowser(sErrorMessage, ref sSocket);
@@ -478,7 +472,7 @@ namespace SharpServ
 					
 					if(File.Exists(sPhysicalFilePath) == false)
 					{
-						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/" + pVersion + "</div>\r" + "</body>\r" + "</html>\r";
+						sErrorMessage = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\r" + "<html xmlns='http://www.w3.org/1999/xhtml'>\n\n" + "<head>\r" + "<title>404 - Not Found</title>\r" + "<style type='text/css'>\r" + "div.foot { font: 90% monospace; color: #787878; padding-top: 4px;}\r" + "</style>\r" + "</head>\n\n" + "<body>\r" + "<h1>404 - Not Found</h1>\r" + "<div class='foot'>SharpServ/" + sVersion.Major + "." + sVersion.Minor + "</div>\r" + "</body>\r" + "</html>\r";
 						SendHeader(sHTTPVersion, "", sErrorMessage.Length,
 						           "404 Not Found", ref sSocket);
 						SendToBrowser(sErrorMessage, ref sSocket);
