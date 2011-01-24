@@ -37,9 +37,9 @@ namespace SharpServ
 		Int32 port = 80;
 		IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 		// Directory and config file locationsc
-		private string cDefaultConfig = "C:\\www\\data\\default.txt";
-		private string cVirtualConfig = "C:\\www\\data\\vdir.txt";
-		private string cMIMETypConfig = "C:\\www\\data\\mime.txt";
+		private string cDefaultConfig = "default-filename.txt";
+		private string cVirtualConfig = "virtual-directory.txt";
+		private string cMIMETypConfig = "mime-type.txt";
 		private string sWebServerRoot = "C:\\www\\";
 		////////////////////////////////////////////////////////////
 
@@ -74,12 +74,13 @@ namespace SharpServ
 				Console.WriteLine("Started listening on port: " + port + "\n");
 				Console.WriteLine("Press Ctrl + C to stop the server...");
 			}
+			
 			catch(Exception e)
 			{
 				Console.WriteLine("An exception occured while listening: " + e.ToString());
 			}
 		}
-		
+
 		public void ServerConfiguration()
 		{
 			// Code
