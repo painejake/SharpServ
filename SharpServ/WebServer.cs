@@ -40,11 +40,11 @@ namespace SharpServ
 		private string cDefaultConfig = "default-filename.txt";
 		private string cVirtualConfig = "virtual-directory.txt";
 		private string cMIMETypConfig = "mime-type.txt";
-		private string sWebServerRoot = "C:\\www\\";
+		private string sWebServerRoot = "/www/";
 		////////////////////////////////////////////////////////////
 
 		// Displays CPU arch e.g x86
-		private string cpuArch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE", EnvironmentVariableTarget.Machine);
+		private string cpuArch = "";
 		// For pulling ProductVersion
 		Version sVersion = new Version(Application.ProductVersion);
 		
@@ -55,13 +55,28 @@ namespace SharpServ
 				// Clear console window
 				Console.Clear();
 				
+				// REMOVED UNTIL FEATURE ADDED
 				// Start thread to load configuration file
-				Thread cfThread = new Thread(new ThreadStart(ServerConfiguration));
-				cfThread.Start();
+				// Thread cfThread = new Thread(new ThreadStart(ServerConfiguration));
+				// cfThread.Start();
 				
 				// Start listening on selected port
 				sListener = new TcpListener(localAddr, port);
 				sListener.Start();
+				
+				// Checks for x86 or x86_64 system
+				if(IntPtr.Size == 8) 
+				{
+					cpuArch = "x64";
+				}
+				else if(IntPtr.Size == 4) 
+				{
+					cpuArch = "x86";
+				}
+				else
+				{
+					cpuArch = "UnknownARCH";
+				}
 				
 				// Display program information
 				Console.WriteLine("SharpServ/" + sVersion.Major + "." + sVersion.Minor + " " + Environment.OSVersion.Platform + " " + cpuArch + " r" + sVersion.Revision + "\n");
