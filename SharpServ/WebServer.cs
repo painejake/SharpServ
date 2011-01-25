@@ -67,7 +67,7 @@ namespace SharpServ
 				// Checks for x86 or x86_64 system
 				if(IntPtr.Size == 8) 
 				{
-					cpuArch = "x64";
+					cpuArch = "x86_64";
 				}
 				else if(IntPtr.Size == 4) 
 				{
