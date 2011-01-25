@@ -40,7 +40,7 @@ namespace SharpServ
 		private string cDefaultConfig = "default-filename.txt";
 		private string cVirtualConfig = "virtual-directory.txt";
 		private string cMIMETypConfig = "mime-type.txt";
-		private string sWebServerRoot = "/www/";
+		private string sWebServerRoot = "/wwwg/";
 		////////////////////////////////////////////////////////////
 
 		// Displays CPU arch e.g x86
@@ -67,7 +67,7 @@ namespace SharpServ
 				// Checks for x86 or x86_64 system
 				if(IntPtr.Size == 8) 
 				{
-					cpuArch = "x86_64";
+					cpuArch = "x64";
 				}
 				else if(IntPtr.Size == 4) 
 				{
@@ -82,12 +82,24 @@ namespace SharpServ
 				Console.WriteLine("SharpServ/" + sVersion.Major + "." + sVersion.Minor + " " + Environment.OSVersion.Platform + " " + cpuArch + " r" + sVersion.Revision + "\n");
 				Console.WriteLine("Bind address: " + localAddr + "\n");
 				
-				// Start the thread which calls the methods 'StartListen'
-				Thread slThread = new Thread(new ThreadStart(StartListen));
-				slThread.Start();
-				
-				Console.WriteLine("Started listening on port: " + port + "\n");
-				Console.WriteLine("Press Ctrl + C to stop the server...");
+				// Check to see if web root exists
+				if(Directory.Exists(sWebServerRoot))
+				{
+					// Start the thread which calls the methods 'StartListen'
+					Thread slThread = new Thread(new ThreadStart(StartListen));
+					slThread.Start();
+					
+					Console.WriteLine("Started listening on port: " + port + "\n");
+					Console.WriteLine("Press Ctrl + C to stop the server...");
+				}
+				else
+				{
+					// If directory does not exist exit
+					Console.WriteLine("The web root could not be found. Exiting...");
+					Thread.Sleep(2000);
+					
+					Application.Exit();
+				}
 			}
 			
 			catch(Exception e)
