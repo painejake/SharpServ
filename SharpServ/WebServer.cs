@@ -34,17 +34,19 @@ namespace SharpServ
 		// General Configuration ///////////////////////////////////
 		// Maybe better to have String xxx not private string
 		// Bind server to port 80 and 127.0.0.1
-		Int32 port = 80;
-		IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+		Int32 port = 8080;
+		IPAddress localAddr = IPAddress.Parse("10.121.81.26");
+		// Used to check if port is free
 		// Directory and config file locationsc
 		private string cDefaultConfig = "default-filename.txt";
 		private string cVirtualConfig = "virtual-directory.txt";
 		private string cMIMETypConfig = "mime-type.txt";
-		private string sWebServerRoot = "/wwwg/";
+		private string sWebServerRoot = "C:\\www\\";
 		////////////////////////////////////////////////////////////
 
 		// Displays CPU arch e.g x86
 		private string cpuArch = "";
+		
 		// For pulling ProductVersion
 		Version sVersion = new Version(Application.ProductVersion);
 		
@@ -65,6 +67,7 @@ namespace SharpServ
 				sListener.Start();
 				
 				// Checks for x86 or x86_64 system
+				// NOT CPU family (e.g. i386)
 				if(IntPtr.Size == 8) 
 				{
 					cpuArch = "x86_64";
@@ -84,7 +87,7 @@ namespace SharpServ
 				
 				// Check to see if web root exists
 				if(Directory.Exists(sWebServerRoot))
-				{
+				{					
 					// Start the thread which calls the methods 'StartListen'
 					Thread slThread = new Thread(new ThreadStart(StartListen));
 					slThread.Start();
@@ -96,8 +99,7 @@ namespace SharpServ
 				{
 					// If directory does not exist exit
 					Console.WriteLine("The web root could not be found. Exiting...");
-					Thread.Sleep(2000);
-					
+					Thread.Sleep(3000);
 					Application.Exit();
 				}
 			}
@@ -105,6 +107,7 @@ namespace SharpServ
 			catch(Exception e)
 			{
 				Console.WriteLine("An exception occured while listening: " + e.ToString());
+				Thread.Sleep(3000);
 			}
 		}
 
@@ -146,6 +149,7 @@ namespace SharpServ
 			catch(Exception e)
 			{
 				Console.WriteLine("An exception occured: " + e.ToString());
+				Thread.Sleep(3000);
 			}
 			if(File.Exists(sLocalDirectory + sLine) == true)
 				return sLine;
@@ -204,6 +208,7 @@ namespace SharpServ
 			catch(Exception e)
 			{
 				Console.WriteLine("An exception occured: " + e.ToString());
+				Thread.Sleep(3000);
 			}
 			
 			if(sMimeExt == sFileExt)
@@ -274,6 +279,7 @@ namespace SharpServ
 			catch(Exception e)
 			{
 				Console.WriteLine("An exception occured: " + e.ToString());
+				Thread.Sleep(3000);
 			}
 			
 			Console.WriteLine("Virtual: " + sVirtualDir);
@@ -373,6 +379,7 @@ namespace SharpServ
 			catch(Exception e)
 			{
 				Console.WriteLine("Error Occurred: {0} ", e );
+				Thread.Sleep(3000);
 			}
 		}
 		
