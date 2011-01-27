@@ -35,13 +35,13 @@ namespace SharpServ
 		// Maybe better to have String xxx not private string
 		// Bind server to port 80 and 127.0.0.1
 		Int32 port = 8080;
-		IPAddress localAddr = IPAddress.Parse("10.121.81.26");
+		IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 		// Used to check if port is free
 		// Directory and config file locationsc
 		private string cDefaultConfig = "default-filename.txt";
 		private string cVirtualConfig = "virtual-directory.txt";
 		private string cMIMETypConfig = "mime-type.txt";
-		private string sWebServerRoot = "C:\\www\\";
+		private string sWebServerRoot = "/www/";
 		////////////////////////////////////////////////////////////
 
 		// Displays CPU arch e.g x86
