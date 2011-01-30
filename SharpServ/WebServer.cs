@@ -44,9 +44,6 @@ namespace SharpServ
 		////////////////////////////////////////////////////////////
 
 		public string cpuArch = "";
-
-		// Timestamp on output
-		public string tStamp = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
 		
 		// For pulling ProductVersion
 		Version sVersion = new Version(Application.ProductVersion);
@@ -395,7 +392,7 @@ namespace SharpServ
 			String sResponse = "";
 			
 			while(true)
-			{
+			{				
 				// Accept a new connection
 				Socket sSocket = sListener.AcceptSocket();
 				
@@ -403,6 +400,9 @@ namespace SharpServ
 				if(sSocket.Connected)
 				{
 					Console.WriteLine("Client Connected\nClient IP {0}", sSocket.RemoteEndPoint);
+					
+					// Timestamp on output
+					String tStamp = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
 					
 					// Timestamp here for time request was made
 					Console.WriteLine("Time Requested: " + tStamp);
