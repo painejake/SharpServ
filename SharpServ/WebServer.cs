@@ -84,9 +84,12 @@ namespace SharpServ
 				// Check to see if web root exists
 				if(Directory.Exists(sWebServerRoot))
 				{					
-					// Start the thread which calls the methods 'StartListen'
-					Thread slThread = new Thread(new ThreadStart(StartListen));
-					slThread.Start();
+					// Start the threads which calls the method 'StartListen'
+					Thread sl1Thread = new Thread(new ThreadStart(StartListen));
+					Thread sl2Thread = new Thread(new ThreadStart(StartListen));
+					
+					sl1Thread.Start();
+					sl2Thread.Start();
 					
 					Console.WriteLine("Started listening on port: " + port + "\n");
 					Console.WriteLine("Press Ctrl + C to stop the server...");
@@ -357,7 +360,7 @@ namespace SharpServ
 				if(sSocket.Connected)
 				{
 					if((numBytes = sSocket.Send(bSendData,
-					                            bSendData.Length,0)) == -1)
+					                            bSendData.Length,0)) == -3)
 						Console.WriteLine("Socket Error! Cannot send packet!");
 					else
 					{
@@ -495,8 +498,11 @@ namespace SharpServ
 							
 							sSocket.Close();
 							
-							Thread slThread = new Thread(new ThreadStart(StartListen));
-							slThread.Start();
+							Thread sl1Thread = new Thread(new ThreadStart(StartListen));
+							Thread sl2Thread = new Thread(new ThreadStart(StartListen));
+					
+							sl1Thread.Start();
+							sl2Thread.Start();
 							
 							return;
 						}
