@@ -37,13 +37,13 @@ namespace SharpServ
 		IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
 		// Directory and config file locations
-		private string cDefaultConfig = "default-filename.txt";
-		private string cVirtualConfig = "virtual-directory.txt";
-		private string cMIMETypConfig = "mime-type.txt";
-		private string sWebServerRoot = "/www/";
+		public string cDefaultConfig = "default-filename.txt";
+		public string cVirtualConfig = "virtual-directory.txt";
+		public string cMIMETypConfig = "mime-type.txt";
+		public string sWebServerRoot = "C:\\www\\";
 		////////////////////////////////////////////////////////////
 
-		private string cpuArch = "";
+		public string cpuArch = "";
 
 		// Timestamp on output
 		public string tStamp = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
@@ -57,11 +57,6 @@ namespace SharpServ
 			{
 				// Clear console window
 				Console.Clear();
-				
-				// REMOVED UNTIL FEATURE ADDED
-				// Start thread to load configuration file
-				// Thread cfThread = new Thread(new ThreadStart(ServerConfiguration));
-				// cfThread.Start();
 				
 				// Start listening on selected port
 				sListener = new TcpListener(localAddr, port);
@@ -110,11 +105,6 @@ namespace SharpServ
 				Console.WriteLine("An exception occured while listening: " + e.ToString());
 				Thread.Sleep(3000);
 			}
-		}
-
-		public void ServerConfiguration()
-		{
-			// Code
 		}
 		
 		/// <summary>
@@ -504,6 +494,10 @@ namespace SharpServ
 							SendToBrowser(sErrorMessage, ref sSocket);
 							
 							sSocket.Close();
+							
+							Thread slThread = new Thread(new ThreadStart(StartListen));
+							slThread.Start();
+							
 							return;
 						}
 					}
