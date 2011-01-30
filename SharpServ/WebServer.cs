@@ -493,7 +493,10 @@ namespace SharpServ
 							           "404 Not Found", ref sSocket);
 							SendToBrowser(sErrorMessage, ref sSocket);
 							
-							Console.WriteLine("Error: 404");
+							sSocket.Close();
+							
+							Thread slThread = new Thread(new ThreadStart(StartListen));
+							slThread.Start();
 							
 							return;
 						}
