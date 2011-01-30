@@ -424,7 +424,15 @@ namespace SharpServ
 					if(sBuffer.Substring(0,3) != "GET")
 					{
 						Console.WriteLine("Only GET method is supported.");
+						
 						sSocket.Close();
+						
+						Thread sl1Thread = new Thread(new ThreadStart(StartListen));
+						Thread sl2Thread = new Thread(new ThreadStart(StartListen));
+					
+						sl1Thread.Start();
+						sl2Thread.Start();
+						
 						return;
 					}
 					
